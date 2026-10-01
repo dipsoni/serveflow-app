@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f5f6;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom scrollbars for clean ERP lists */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Global ServeFlow Design Tokens */
+:root {
+  --sf-card-radius: 12px;
+  --sf-section-radius: 12px;
+  --sf-input-radius: 7px;
+  --sf-modal-radius: 16px;
+  --sf-button-radius: 8px;
+  --sf-badge-radius: 9999px;
+  --sf-border-neutral: #e2e8f0;
+  --sf-subtle-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+@layer components {
+  /* Standard ServeFlow Card / Container */
+  .sf-card {
+    border-radius: var(--sf-card-radius);
+    border: 1px solid var(--sf-border-neutral);
+    background-color: #ffffff;
+    box-shadow: var(--sf-subtle-shadow);
+  }
+
+  /* Form Section Container */
+  .sf-section {
+    border-radius: var(--sf-section-radius);
+    border: 1px solid var(--sf-border-neutral);
+    background-color: #ffffff;
+    box-shadow: var(--sf-subtle-shadow);
+    padding: 1.25rem;
+  }
+
+  /* Table Container */
+  .sf-table-wrapper {
+    border-radius: var(--sf-card-radius);
+    border: 1px solid var(--sf-border-neutral);
+    background-color: #ffffff;
+    box-shadow: var(--sf-subtle-shadow);
+    overflow: hidden;
+  }
+
+  /* Standard Input / Select / Textarea */
+  .sf-input {
+    border-radius: var(--sf-input-radius);
+    border: 1px solid var(--sf-border-neutral);
+    background-color: #f8fafc;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .sf-input:focus {
+    background-color: #ffffff;
+    border-color: #94a3b8;
+    outline: none;
+  }
+
+  /* Filter / Search Bar Container */
+  .sf-filter-card {
+    border-radius: var(--sf-card-radius);
+    border: 1px solid var(--sf-border-neutral);
+    background-color: #ffffff;
+    box-shadow: var(--sf-subtle-shadow);
+  }
+
+  /* Modal Surface */
+  .sf-modal {
+    border-radius: var(--sf-modal-radius);
+    border: 1px solid var(--sf-border-neutral);
+    background-color: #ffffff;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Micro-interaction Utilities for Simple & Nice Frappe UI */
+@layer utilities {
+  /* Subtle lift on hover for cards and badges */
+  .hover-lift {
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.08), 0 1px 3px -1px rgba(0, 0, 0, 0.04);
+  }
+  .hover-lift:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  /* Tactile click for enterprise buttons */
+  .btn-tactile {
+    transition: transform 0.1s ease, background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-tactile:active {
+    transform: scale(0.98);
+  }
+
+  /* Keyboard shortcut keycap styling */
+  .kbd-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    color: #64748b;
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 2px 5px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Pulsing live status dot */
+  .status-dot-pulse {
+    position: relative;
+    display: inline-flex;
+  }
+  .status-dot-pulse::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    background-color: inherit;
+    opacity: 0.75;
+    animation: status-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes status-ping {
+    75%, 100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes loadingProgress {
+    0% { transform: translateX(-100%); width: 30%; }
+    50% { transform: translateX(70%); width: 60%; }
+    100% { transform: translateX(200%); width: 40%; }
+  }
+}
+
+/* Print styling for receipts/bills */
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+  html, body {
+    background: #fff !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0;
+    padding: 12px 10px;
+    font-size: 11px;
+    color: #000 !important;
+    background: #fff !important;
+    z-index: 999999;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
