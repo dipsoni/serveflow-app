@@ -1,0 +1,25 @@
+services:
+  # Backend Node.js API
+  - type: web
+    name: serveflow-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+
+  # Frontend Static Site
+  - type: web
+    name: serveflow-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: serveflow-backend
+          envVarKey: RENDER_EXTERNAL_URL
