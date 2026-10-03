@@ -19,7 +19,7 @@ const enforceSuperAdmin = (req, res, next) => {
   }
 };
 
-const { getDB } = require('../utils/db');
+const dataService = require('../services/dataService');
 
 // --- SUPER ADMIN AUTH ---
 router.post('/login', async (req, res) => {
@@ -44,10 +44,9 @@ router.post('/login', async (req, res) => {
 // --- DASHBOARD ---
 router.get('/dashboard', enforceSuperAdmin, async (req, res) => {
   try {
-    const db = getDB();
-    const restaurants = await db.query('SELECT * FROM companies') || [];
-    const branches = await db.query('SELECT * FROM branches') || [];
-    const users = await db.query('SELECT * FROM users') || [];
+    const restaurants = dataService.getAll('companies');
+    const branches = dataService.getAll('branches');
+    const users = dataService.getAll('users');
     
     const stats = {
       totalRestaurants: restaurants.length || 128,
